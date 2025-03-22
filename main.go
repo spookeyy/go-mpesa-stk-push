@@ -12,17 +12,33 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/lpernett/godotenv"
 	"github.com/gin-gonic/gin"
 )
 
 var (
+	consumerKey  string
+	consumerSecret  string
+	mpesaShortcode  string
+	mpesaPassKey  string
+	mpesaTokenUrl  string
+	myEndpoint  string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	consumerKey = os.Getenv("MPESA_CONSUMER_KEY")
 	consumerSecret = os.Getenv("MPESA_CONSUMER_SECRET")
 	mpesaShortcode = os.Getenv("MPESA_SHORTCODE")
 	mpesaPassKey = os.Getenv("MPESA_PASS_KEY")
 	mpesaTokenUrl = os.Getenv("MPESA_TOKEN_URL")
-	myEndpoint = "https://15df-102-219-208-226.ngrok-free.app"
-)
+	// myEndpoint = "https://webhook.site/9e1a6307-9adc-465b-a37b-78db245785a7"
+	myEndpoint = "https://07be-102-219-208-226.ngrok-free.app"
+}
 
 func main() {
 	router := gin.Default()
@@ -97,7 +113,8 @@ func MpesaExpress(c *gin.Context) {
 		"PartyA": phone,
 		"PartyB": mpesaShortcode,
 		"PhoneNumber": phone,
-		"CallBackUrl": myEndpoint + "/callback",
+		// "CallBackUrl": myEndpoint + "/callback",
+		"CallBackUrl": myEndpoint,
 		"AccountReference": "Marps Africa",
 		"TransactionDesc": "Payment Testing",
 	}
@@ -157,6 +174,7 @@ func MpesaCallback(c *gin.Context) {
 }
 
 func getAccessToken() (string, error) {
+	// log.Println("Getting access token...")
     req, err := http.NewRequest("GET", mpesaTokenUrl, nil)
     if err != nil {
         log.Printf("Failed to create request: %v\n", err)
@@ -180,7 +198,7 @@ func getAccessToken() (string, error) {
     }
 
     log.Printf("Response Status: %s\n", resp.Status)
-    log.Printf("Response Body: %s\n", string(body))
+    // log.Printf("Response Body: %s\n", string(body))
 
     var result map[string]interface{}
     if err := json.Unmarshal(body, &result); err != nil {
