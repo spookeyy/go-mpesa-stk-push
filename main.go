@@ -36,7 +36,7 @@ func init() {
 	mpesaShortcode = os.Getenv("MPESA_SHORTCODE")
 	mpesaPassKey = os.Getenv("MPESA_PASS_KEY")
 	mpesaTokenUrl = os.Getenv("MPESA_TOKEN_URL")
-	myEndpoint = "https://webhook.site/9e1a6307-9adc-465b-a37b-78db245785a7"
+	myEndpoint = "https://webhook.site/9262a313-3eb6-475b-8df2-84cc1f486ad6"
 	// myEndpoint = "https://spookie.requestcatcher.com"
 	// myEndpoint = "https://sms-api.marps.co.ke"
 }
@@ -117,7 +117,7 @@ func MpesaExpress(c *gin.Context) {
 		"CallBackURL": myEndpoint + "/callback",
 		// "CallBackUrl": myEndpoint,
 		"AccountReference": "Marps Africa",
-		"TransactionDesc": "Payment Testing",
+		"TransactionDesc": "Testing",
 	}
 
 	payloadBytes, err := json.Marshal(payload)
