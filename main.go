@@ -58,13 +58,11 @@ func main() {
 
 
 func MpesaExpress(c *gin.Context) {
-	var amount, phone string
-	if c.Request.Method == http.MethodGet {
-		amount = c.Query("amount")
-		phone = c.Query("phone")
-	} else if c.Request.Method == http.MethodPost {
-		amount = c.PostForm("amount")
+	phone := c.Query("phone")
+	amount := c.Query("amount")
+	if c.Request.Method == http.MethodPost && (phone == "" || amount == "") {
 		phone = c.PostForm("phone")
+		amount = c.PostForm("amount")
 	}
 
 	if len(phone) == 0 || len(amount)== 0 {
